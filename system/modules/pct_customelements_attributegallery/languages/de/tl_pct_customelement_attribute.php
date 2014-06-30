@@ -12,6 +12,8 @@
  * permanent text corrections which are update-safe. 
  */
 
+$GLOBALS['TL_LANG']['tl_pct_customelement_attribute']['sortBy'] 	= array('Sortierung nach','Bitte wählen Sie eine Sortierreihenfolge aus.');
+$GLOBALS['TL_LANG']['tl_pct_customelement_attribute']['options']['gallery'] = array('Attribut-Optionen','Wählen Sie welche zusätzlichen Optionen dargestellt werden sollen.');
 $GLOBALS['TL_LANG']['tl_pct_customelement_attribute']['options']['gallery']['alt'] 				= 'Alternativer Text';
 $GLOBALS['TL_LANG']['tl_pct_customelement_attribute']['options']['gallery']['title'] 			= 'Titel';
 $GLOBALS['TL_LANG']['tl_pct_customelement_attribute']['options']['gallery']['size'] 			= 'Bildbreite und Bildhöhe';

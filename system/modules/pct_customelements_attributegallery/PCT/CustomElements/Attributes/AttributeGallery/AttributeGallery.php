@@ -36,6 +36,13 @@ class AttributeGallery extends Attribute
 	protected $arrData = array();
 	
 	/**
+	 * Tell the vault to store how to save the data (binary,blob)
+	 * Leave empty to varchar
+	 * @var boolean
+	 */
+	protected $saveDataAs = 'blob';
+		
+	/**
 	 * Create new instance
 	 * @param array
 	 */ 
@@ -57,21 +64,44 @@ class AttributeGallery extends Attribute
 	 */
 	public function getFieldDefinition()
 	{
+		$arrEval = $this->getEval();
+		
+		if(isset($arrEval['path']))
+		{
+			$arrEval['path'] = \FilesModel::findByPk($arrEval['path'])->path;
+		}
+	
+		$arrEval['fieldType'] ='checkbox';
+		$arrEval['multiple'] = true;
+		$arrEval['isGallery'] = true;
+		
+		// toggle show files only or folders only
+		$arrEval['files'] = $this->get('eval_files') ? 0 : 1;
+		
 		$arrReturn = array
 		(
 			'label'			=> array( $this->get('title'),$this->get('description') ),
 			'exclude'		=> true,
-			'inputType'		=> 'text',
-			'eval'			=> array_unique(array_merge($this->getEval(),array())),
-			'sql'			=> "blob NULL",
+			'inputType'		=> 'fileTree',
+			'eval'			=> $arrEval,
+			'sql'			=> "binary(16) NULL",
 		);
 		
-		$options = $this->get('options');
-		if(empty($options))
+		if($this->get('eval_multiple'))
 		{
-			return $arrReturn;
+			ControllerHelper::callstatic('loadDataContainer',array('tl_content'));
+			$arrReturn['load_callback'] = array
+			(
+				array('tl_content', 'setFileTreeFlags')
+			);
+			$arrReturn['sql'] = "blob NULL";
 		}
 		
+		// make attribute sortable
+		if($this->get('sortBy') == 'custom')
+		{
+			$arrReturn['sortable'] = true;
+		}
 		
 		return $arrReturn;
 	}
@@ -80,9 +110,13 @@ class AttributeGallery extends Attribute
 	/**
 	 * Parse widget callback, render the attribute in the backend
 	 * @param object
+	 * @param string
+	 * @param array
+	 * @param object
+	 * @param mixed
 	 * @return string
 	 */
-	public function parseWidgetCallback($objWidget)
+	public function parseWidgetCallback($objWidget,$strField,$arrFieldDef,$objDC,$varValue)
 	{
 		// validate the input
 		$objWidget->validate();
@@ -94,15 +128,84 @@ class AttributeGallery extends Attribute
 		
 		$strBuffer = $objWidget->parse();
 		
+		// load data container and language file
+		ControllerHelper::callstatic('loadDataContainer',array('tl_content'));
+		ControllerHelper::callstatic('loadLanguageFile',array('tl_content'));
 		
+		$options = deserialize($this->get('options'));
+		if(empty($options) || !is_array($options))
+		{
+			return $strBuffer;
+		}
+		
+		// size field 
+		if(in_array('size', $options))
+		{
+			$strName = $strField.'_size';
+			$arrFieldDef = $GLOBALS['TL_DCA']['tl_content']['fields']['size'];
+			$arrFieldDef['eval']['tl_class'] = 'w50';
+			$arrFieldDef['saveDataAs'] = 'varchar';
+			$this->prepareChildAttribute($arrFieldDef,$strName);
+		}
+		
+		// imagemargin field
+		if(in_array('imagemargin', $options))
+		{
+			$strName = $strField.'_imagemargin';
+			$arrFieldDef = $GLOBALS['TL_DCA']['tl_content']['fields']['imagemargin'];
+			$arrFieldDef['eval']['tl_class'] = 'w50';
+			$arrFieldDef['saveDataAs'] = 'varchar';
+			$this->prepareChildAttribute($arrFieldDef,$strName);
+		}
+		
+		// perRow field 
+		if(in_array('perRow', $options))
+		{
+			$strName = $strField.'_perRow';
+			$arrFieldDef = $GLOBALS['TL_DCA']['tl_content']['fields']['perRow'];
+			$arrFieldDef['eval']['tl_class'] = 'w50';
+			$arrFieldDef['saveDataAs'] = 'varchar';
+			$this->prepareChildAttribute($arrFieldDef,$strName);
+		}
+		
+		// fullscreen/new window field 
+		if(in_array('fullsize', $options))
+		{
+			$strName = $strField.'_fullsize';
+			$arrFieldDef = $GLOBALS['TL_DCA']['tl_content']['fields']['fullsize'];
+			$arrFieldDef['eval']['tl_class'] = 'w50';
+			$arrFieldDef['saveDataAs'] = 'varchar';
+			$this->prepareChildAttribute($arrFieldDef,$strName);
+		}
+		
+		// perPage field 
+		if(in_array('perPage', $options))
+		{
+			$strName = $strField.'_perPage';
+			$arrFieldDef = $GLOBALS['TL_DCA']['tl_content']['fields']['perPage'];
+			$arrFieldDef['eval']['tl_class'] = 'w50';
+			$arrFieldDef['saveDataAs'] = 'varchar';
+			$this->prepareChildAttribute($arrFieldDef,$strName);
+		}
+		
+		// numberOfItems field 
+		if(in_array('numberOfItems', $options))
+		{
+			$strName = $strField.'_numberOfItems';
+			$arrFieldDef = $GLOBALS['TL_DCA']['tl_content']['fields']['numberOfItems'];
+			$arrFieldDef['eval']['tl_class'] = 'w50';
+			$arrFieldDef['saveDataAs'] = 'varchar';
+			$this->prepareChildAttribute($arrFieldDef,$strName);
+		}
 		
 		return $strBuffer;
 	}
 
+
 	/**
-	 * Rewrite date format and return html in the frontend
+	 * Generate the attribute in the frontend
 	 * @param string
-	 * @param string		Unix timestamp
+	 * @param mixed
 	 * @param array
 	 * @param string
 	 * @param object
@@ -112,37 +215,21 @@ class AttributeGallery extends Attribute
 	 */
 	public function renderCallback($strField,$varValue,$arrFieldDef,$strBuffer,$objTemplate,$objAttribute)
 	{
-		if(!$objAttribute->get('date_format'))
-		{
-			return $strBuffer;
-		}
+		$varValue = explode(',', $varValue);
+		$objGallery = new \ContentGallery($this->getActiveRecord());
+		$objGallery->size = $this->findValueByField($strField.'_size');
+		$objGallery->imagemargin = $this->findValueByField($strField.'_imagemargin');;
+		$objGallery->perRow = $this->findValueByField($strField.'_perRow');;
+		$objGallery->perPage = $this->findValueByField($strField.'_perPage');;
+		$objGallery->fullsize = $this->findValueByField($strField.'_fullsize');
+		$objGallery->multiSRC = $varValue;
+		$objGallery->sortBy = $this->get('sortBy');
+		$objGallery->orderSRC = $varValue;
+		$objGallery->galleryTpl = $this->get('galleryTpl');
 		
-		$objTemplate->value = \System::parseDate($objAttribute->get('date_format'),$varValue);
-		
+		// generate the gallery
+		$objTemplate->value = $objGallery->generate();
 		return $objTemplate->parse();
 	}
 	
-	/**
-	 * Convert value to unix timestamp before saving to the Vault
-	 * @param object
-	 * @param array
-	 * @return array
-	 * called from: storeValue Hook
-	 */
-	public function storeValueCallback($objAttribute,$arrSet)
-	{
-		if($objAttribute->get('type') != 'timestamp')
-		{
-			return $arrSet;
-		}
-		
-		$rgxp = $objAttribute->get('date_rgxp');
-		$format = $GLOBALS['TL_CONFIG'][$rgxp.'Format'];
-		
-		// convert date string to unix timestamp
-		$objDate = new \Date($arrSet['data'],$format);
-		$arrSet['data'] = $objDate->__get('tstamp');
-		
-		return $arrSet;
-	}
 }
