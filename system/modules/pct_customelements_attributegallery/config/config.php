@@ -19,4 +19,5 @@ $GLOBALS['PCT_CUSTOMELEMENTS']['ATTRIBUTES']['gallery'] = array
 (
 	'path' 		=> 'system/modules/pct_customelements_attributegallery',
 	'class'		=> 'PCT\CustomElements\Attributes\AttributeGallery',
+	'icon'		=> 'fa fa-image'
 );
