@@ -27,5 +27,5 @@ ClassLoader::addNamespaces(array
  */
 ClassLoader::addClasses(array
 (
-	'PCT\CustomElements\Attributes\AttributeGallery'					=> 'system/modules/pct_customelements_attributegallery/PCT/CustomElements/Attributes/AttributeGallery/AttributeGallery.php',	
+	'PCT\CustomElements\Attributes\AttributeGallery'					=> 'system/modules/pct_customelements_attribute_gallery/PCT/CustomElements/Attributes/AttributeGallery/AttributeGallery.php',	
 ));

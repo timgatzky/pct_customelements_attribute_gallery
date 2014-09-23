@@ -1,0 +1,5 @@
+### 1.1
+Update: Refractored extension path to pct_customelements_attribute_gallery
+Update: Update the parameters in the renderCallback to the new structure
+
+### Version (1.0)
