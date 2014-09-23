@@ -213,7 +213,7 @@ class AttributeGallery extends Attribute
 	 * @return string
 	 * called renderCallback method
 	 */
-	public function renderCallback($strField,$varValue,$arrFieldDef,$strBuffer,$objTemplate,$objAttribute)
+	public function renderCallback($strField,$varValue,$arrFieldDef,$objTemplate,$objAttribute)
 	{
 		$varValue = explode(',', $varValue);
 		$objGallery = new \ContentGallery($this->getActiveRecord());
