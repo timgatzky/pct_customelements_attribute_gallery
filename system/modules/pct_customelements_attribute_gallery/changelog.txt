@@ -1,3 +1,8 @@
+### 1.2.0
+Added: CustomCatalog support
+Update: Buxfixes and improvements for latest CustomElements version
+Update: Changed attribute class name to \PCT\CustomElements\Attribute\Gallery and refractored module folder
+
 ### 1.1
 Update: Refractored extension path to pct_customelements_attribute_gallery
 Update: Update the parameters in the renderCallback to the new structure
