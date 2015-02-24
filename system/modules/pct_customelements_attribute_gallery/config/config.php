@@ -17,7 +17,14 @@
  */
 $GLOBALS['PCT_CUSTOMELEMENTS']['ATTRIBUTES']['gallery'] = array
 (
+	'label'		=> &$GLOBALS['TL_LANG']['PCT_CUSTOMELEMENTS']['ATTRIBUTES']['gallery'],
 	'path' 		=> 'system/modules/pct_customelements_attribute_gallery',
-	'class'		=> 'PCT\CustomElements\Attributes\AttributeGallery',
-	'icon'		=> 'fa fa-image'
+	'class'		=> 'PCT\CustomElements\Attributes\Gallery',
+	'icon'		=> 'fa fa-image',
+	'backendWildcardSize' => array('50','50','center center'),
 );
+
+/**
+ * Hooks
+ */
+$GLOBALS['CUSTOMELEMENTS_HOOKS']['processWildcardValue'][] = array('PCT\CustomElements\Attributes\Gallery','processWildcardValue');

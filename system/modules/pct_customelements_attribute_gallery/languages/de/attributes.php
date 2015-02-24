@@ -16,4 +16,4 @@
 /**
  * Attributes
  */
-$GLOBALS['TL_LANG']['PCT_ATTRIBUTES']['gallery']		= array('Galerie','Dieses Attribut fügt eine Mehrfachbildauswahl mit Galerie-Optionen hinzu.');
+$GLOBALS['TL_LANG']['PCT_CUSTOMELEMENTS']['ATTRIBUTES']['gallery'] = array('Galerie','Dieses Attribut fügt eine Mehrfachbildauswahl mit Galerie-Optionen hinzu.');
