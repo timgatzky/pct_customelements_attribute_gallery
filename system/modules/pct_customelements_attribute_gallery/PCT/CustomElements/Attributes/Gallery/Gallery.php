@@ -98,7 +98,6 @@ class Gallery extends \PCT\CustomElements\Core\Attribute
 		// load data container and language file
 		ControllerHelper::callstatic('loadDataContainer',array('tl_content'));
 		ControllerHelper::callstatic('loadLanguageFile',array('tl_content'));
-		\FB::log($this->get('options'));
 		
 		$arrOptions = deserialize($this->get('options'));
 		if(empty($arrOptions) || !is_array($arrOptions))
@@ -245,8 +244,8 @@ class Gallery extends \PCT\CustomElements\Core\Attribute
 		$objGallery->type = 'gallery';
 		$objGallery->size = $arrOptionValues['size'];
 		$objGallery->imagemargin = $arrOptionValues['imagemargin'];
-		$objGallery->perRow = $arrOptionValues['perRow'];
-		$objGallery->perPage = $arrOptionValues['perPage'];
+		$objGallery->perRow = $arrOptionValues['perRow'] ?: 3;
+		$objGallery->perPage = $arrOptionValues['perPage'] ?: 1;
 		$objGallery->fullsize = $arrOptionValues['fullsize'];
 		$objGallery->multiSRC = $varValue;
 		$objGallery->sortBy = $this->get('sortBy');
