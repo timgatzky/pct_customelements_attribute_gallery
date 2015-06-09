@@ -1,6 +1,6 @@
 ### 1.2.1
 Fixed: Fallback values for perRow and perPage (#1)
-Update: Included the sortBy field in the attribute settings
+Update: Included the sortBy field in the attribute settings (#2)
 Update: Added pct_customelements as requirement
 
 ### 1.2.0
