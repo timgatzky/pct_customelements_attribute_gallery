@@ -34,7 +34,7 @@ $strType = 'gallery';
 $arrPalettes = $objDcaHelper->getPalettesAsArray('default');
 $arrPalettes = $objDcaHelper->removeField('eval_tl_class_w50');
 $arrPalettes = $objDcaHelper->removeField('eval_tl_class_clr');
-$arrPalettes['settings_legend'] = array('options','galleryTpl');
+$arrPalettes['settings_legend'] = array('options','sortBy','galleryTpl');
 $GLOBALS['TL_DCA']['tl_pct_customelement_attribute']['palettes'][$strType] = $objDcaHelper->generatePalettes($arrPalettes);
 
 /**
