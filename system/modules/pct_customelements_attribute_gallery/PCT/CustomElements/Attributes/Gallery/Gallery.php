@@ -208,6 +208,9 @@ class Gallery extends \PCT\CustomElements\Core\Attribute
 		$objOrigin = $objAttribute->getOrigin();
 		$objActiveRecord = $objAttribute->getActiveRecord();
 		
+		$objGallery = new \ContentGallery($objActiveRecord);
+		$arrOptionValues = $objAttribute->loadOptionValues($strField);
+		
 		if($objOrigin)
 		{
 			if(\PCT\CustomElements\Plugins\CustomCatalog\Core\CustomCatalogFactory::validateByTableName($objAttribute->getOrigin()->getTable()) == true)
@@ -224,6 +227,7 @@ class Gallery extends \PCT\CustomElements\Core\Attribute
 				 	}
 			 	}
 			 	$objAttribute->setOptionValues($arrOptionValues);
+			 	$arrOptionValues['orderSRC'] = $objActiveRecord->{'orderSRC_'.$strField};
 			}
 			else
 			{
@@ -231,14 +235,11 @@ class Gallery extends \PCT\CustomElements\Core\Attribute
 			}
 		}
 		
-		$objGallery = new \ContentGallery($objActiveRecord);
-		$arrOptionValues = $objAttribute->loadOptionValues($strField);
 		
 		if(TL_MODE == 'BE' && is_array($GLOBALS['PCT_CUSTOMELEMENTS']['ATTRIBUTES']['gallery']['backendWildcardSize']))
 		{
 			$arrOptionValues['size'] = $GLOBALS['PCT_CUSTOMELEMENTS']['ATTRIBUTES']['gallery']['backendWildcardSize'];
 			$arrOptionValues['perRow'] = 8;
-			
 		}
 		
 		$objGallery->type = 'gallery';
@@ -249,7 +250,7 @@ class Gallery extends \PCT\CustomElements\Core\Attribute
 		$objGallery->fullsize = $arrOptionValues['fullsize'];
 		$objGallery->multiSRC = $varValue;
 		$objGallery->sortBy = $this->get('sortBy');
-		$objGallery->orderSRC = $varValue;
+		$objGallery->orderSRC = $arrOptionValues['orderSRC'] ?: $varValue;
 		$objGallery->galleryTpl = $this->get('galleryTpl');
 		
 		// generate the gallery
