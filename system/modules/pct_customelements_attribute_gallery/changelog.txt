@@ -1,3 +1,7 @@
+### 1.2.1
+Fixed: Fallback values for perRow and perPage (#1)
+Update: Added pct_customelements as requirement
+
 ### 1.2.0
 Added: CustomCatalog support
 Update: Buxfixes and improvements for latest CustomElements version
