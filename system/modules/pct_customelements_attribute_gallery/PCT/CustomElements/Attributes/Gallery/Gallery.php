@@ -244,8 +244,8 @@ class Gallery extends \PCT\CustomElements\Core\Attribute
 		$objGallery->type = 'gallery';
 		$objGallery->size = $arrOptionValues['size'];
 		$objGallery->imagemargin = $arrOptionValues['imagemargin'];
-		$objGallery->perRow = $arrOptionValues['perRow'] ?: 3;
-		$objGallery->perPage = $arrOptionValues['perPage'] ?: 1;
+		$objGallery->perRow = $arrOptionValues['perRow'] ?: 4;
+		$objGallery->perPage = $arrOptionValues['perPage'] ?: 0;
 		$objGallery->fullsize = $arrOptionValues['fullsize'];
 		$objGallery->multiSRC = $varValue;
 		$objGallery->sortBy = $this->get('sortBy');
