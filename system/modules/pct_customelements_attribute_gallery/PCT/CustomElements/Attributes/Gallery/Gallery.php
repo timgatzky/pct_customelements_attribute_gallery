@@ -207,9 +207,9 @@ class Gallery extends \PCT\CustomElements\Core\Attribute
 		
 		$objOrigin = $objAttribute->getOrigin();
 		$objActiveRecord = $objAttribute->getActiveRecord();
+		$arrOptionValues = array();
 		
 		$objGallery = new \ContentGallery($objActiveRecord);
-		$arrOptionValues = $objAttribute->loadOptionValues($strField);
 		
 		if($objOrigin)
 		{
@@ -231,6 +231,7 @@ class Gallery extends \PCT\CustomElements\Core\Attribute
 			}
 			else
 			{
+				$arrOptionValues = $objAttribute->loadOptionValues($strField);
 				$varValue = explode(',', $varValue);
 			}
 		}
