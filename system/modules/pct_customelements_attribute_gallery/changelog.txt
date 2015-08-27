@@ -1,3 +1,6 @@
+### 1.2.2
+Fixed: Wrong user permissions due to wrong dataContainer loading in contao default dca popup fields 
+
 ### 1.2.1
 Fixed: Fallback values for perRow and perPage (#1)
 Update: Included the sortBy field in the attribute settings (#2)
