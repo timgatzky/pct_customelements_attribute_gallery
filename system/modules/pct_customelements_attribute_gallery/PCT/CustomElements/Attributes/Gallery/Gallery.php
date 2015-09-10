@@ -176,11 +176,6 @@ class Gallery extends \PCT\CustomElements\Core\Attribute
 	 */
 	public function getOptionFieldDefinition($strOption)
 	{
-		if(!is_array($GLOBALS['TL_DCA']['tl_content']))
-		{
-			ControllerHelper::callstatic('loadDataContainer',array('tl_content'));
-		}
-		ControllerHelper::callstatic('loadLanguageFile',array('tl_content'));
 		$arrReturn = $GLOBALS['TL_DCA']['tl_content']['fields'][$strOption];
 		$arrReturn['saveDataAs'] = 'varchar';
 		return $arrReturn;
