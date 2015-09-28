@@ -282,22 +282,25 @@ class Gallery extends \PCT\CustomElements\Core\Attribute
 	 	$objTemplate = new \FrontendTemplate($objAttribute->get('template'));
 		 
 		// is a custom catalog
-	 	if(\PCT\CustomElements\Plugins\CustomCatalog\Core\CustomCatalogFactory::findCurrent() || \PCT\CustomElements\Plugins\CustomCatalog\Core\CustomCatalogFactory::validateByTableName($strTable) == true)
+	 	if( in_array('pct_customelements_plugin_customcatalog', \Config::getInstance()->getActiveModules()) )
 	 	{
-		 	$strField = $objAttribute->get('alias');
-		 	
-		 	$arrOptionValues = array();
-		 	$arrOptions = deserialize($objAttribute->get('options'));
-		 	if(count($arrOptions) > 0)
+		 	if(\PCT\CustomElements\Plugins\CustomCatalog\Core\CustomCatalogFactory::findCurrent() || \PCT\CustomElements\Plugins\CustomCatalog\Core\CustomCatalogFactory::validateByTableName($strTable) == true)
 		 	{
-			 	foreach($arrOptions as $strOption)
+			 	$strField = $objAttribute->get('alias');
+			 	
+			 	$arrOptionValues = array();
+			 	$arrOptions = deserialize($objAttribute->get('options'));
+			 	if(count($arrOptions) > 0)
 			 	{
-				 	$arrOptionValues[$strOption] = $objActiveRecord->{$strField.'_'.$strOption};
+				 	foreach($arrOptions as $strOption)
+				 	{
+					 	$arrOptionValues[$strOption] = $objActiveRecord->{$strField.'_'.$strOption};
+				 	}
 			 	}
+			 	$objAttribute->setOptionValues($arrOptionValues);
+			 	
+			 	$strBuffer = $this->renderCallback($strField,$varValue,$objTemplate,$objAttribute);
 		 	}
-		 	$objAttribute->setOptionValues($arrOptionValues);
-		 	
-		 	$strBuffer = $this->renderCallback($strField,$varValue,$objTemplate,$objAttribute);
 	 	}
 	 	// render the wildcard for a custom element item
 	 	else
