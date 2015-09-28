@@ -208,21 +208,24 @@ class Gallery extends \PCT\CustomElements\Core\Attribute
 		
 		if($objOrigin)
 		{
-			if(\PCT\CustomElements\Plugins\CustomCatalog\Core\CustomCatalogFactory::validateByTableName($objAttribute->getOrigin()->getTable()) == true)
+			if( in_array('pct_customelements_plugin_customcatalog', \Config::getInstance()->getActiveModules()) )
 			{
-				$strField = $objAttribute->get('alias');
-			 	
-			 	$arrOptionValues = array();
-			 	$arrOptions = deserialize($objAttribute->get('options'));
-			 	if(count($arrOptions) > 0)
-			 	{
-				 	foreach($arrOptions as $strOption)
+				if(\PCT\CustomElements\Plugins\CustomCatalog\Core\CustomCatalogFactory::validateByTableName($objAttribute->getOrigin()->getTable()) == true)
+				{
+					$strField = $objAttribute->get('alias');
+				 	
+				 	$arrOptionValues = array();
+				 	$arrOptions = deserialize($objAttribute->get('options'));
+				 	if(count($arrOptions) > 0)
 				 	{
-					 	$arrOptionValues[$strOption] = $objActiveRecord->{$strField.'_'.$strOption};
+					 	foreach($arrOptions as $strOption)
+					 	{
+						 	$arrOptionValues[$strOption] = $objActiveRecord->{$strField.'_'.$strOption};
+					 	}
 				 	}
-			 	}
-			 	$objAttribute->setOptionValues($arrOptionValues);
-			 	$arrOptionValues['orderSRC'] = $objActiveRecord->{'orderSRC_'.$strField};
+				 	$objAttribute->setOptionValues($arrOptionValues);
+				 	$arrOptionValues['orderSRC'] = $objActiveRecord->{'orderSRC_'.$strField};
+				}
 			}
 			else
 			{
