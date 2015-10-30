@@ -203,37 +203,35 @@ class Gallery extends \PCT\CustomElements\Core\Attribute
 		$objOrigin = $objAttribute->getOrigin();
 		$objActiveRecord = $objAttribute->getActiveRecord();
 		$arrOptionValues = array();
-		
 		$objGallery = new \ContentGallery($objActiveRecord);
 		
-		if($objOrigin)
+		$blnIsCustomElement = true;
+		if(in_array('pct_customelements_plugin_customcatalog', \Config::getInstance()->getActiveModules()) && isset($objOrigin) )
 		{
-			if( in_array('pct_customelements_plugin_customcatalog', \Config::getInstance()->getActiveModules()) )
+			if(\PCT\CustomElements\Plugins\CustomCatalog\Core\CustomCatalogFactory::validateByTableName($objOrigin->getTable()) == true)
 			{
-				if(\PCT\CustomElements\Plugins\CustomCatalog\Core\CustomCatalogFactory::validateByTableName($objAttribute->getOrigin()->getTable()) == true)
-				{
-					$strField = $objAttribute->get('alias');
-				 	
-				 	$arrOptionValues = array();
-				 	$arrOptions = deserialize($objAttribute->get('options'));
-				 	if(count($arrOptions) > 0)
+				$blnIsCustomElement = false;
+				
+				$strField = $objAttribute->get('alias');
+			 	$arrOptionValues = array();
+			 	$arrOptions = deserialize($objAttribute->get('options'));
+			 	if(count($arrOptions) > 0)
+			 	{
+				 	foreach($arrOptions as $strOption)
 				 	{
-					 	foreach($arrOptions as $strOption)
-					 	{
-						 	$arrOptionValues[$strOption] = $objActiveRecord->{$strField.'_'.$strOption};
-					 	}
+					 	$arrOptionValues[$strOption] = $objActiveRecord->{$strField.'_'.$strOption};
 				 	}
-				 	$objAttribute->setOptionValues($arrOptionValues);
-				 	$arrOptionValues['orderSRC'] = $objActiveRecord->{'orderSRC_'.$strField};
-				}
-			}
-			else
-			{
-				$arrOptionValues = $objAttribute->loadOptionValues($strField);
-				$varValue = explode(',', $varValue);
+			 	}
+			 	$objAttribute->setOptionValues($arrOptionValues);
+			 	$arrOptionValues['orderSRC'] = $objActiveRecord->{'orderSRC_'.$strField};
 			}
 		}
 		
+		if($blnIsCustomElement)
+		{
+			$arrOptionValues = $objAttribute->loadOptionValues($strField);
+			$varValue = explode(',', $varValue);
+		}
 		
 		if(TL_MODE == 'BE' && is_array($GLOBALS['PCT_CUSTOMELEMENTS']['ATTRIBUTES']['gallery']['backendWildcardSize']))
 		{
@@ -285,10 +283,13 @@ class Gallery extends \PCT\CustomElements\Core\Attribute
 	 	$objTemplate = new \FrontendTemplate($objAttribute->get('template'));
 		 
 		// is a custom catalog
+		$blnIsCustomElement = true;
 	 	if( in_array('pct_customelements_plugin_customcatalog', \Config::getInstance()->getActiveModules()) )
 	 	{
 		 	if(\PCT\CustomElements\Plugins\CustomCatalog\Core\CustomCatalogFactory::findCurrent() || \PCT\CustomElements\Plugins\CustomCatalog\Core\CustomCatalogFactory::validateByTableName($strTable) == true)
 		 	{
+			 	$blnIsCustomElement = false;
+			 	
 			 	$strField = $objAttribute->get('alias');
 			 	
 			 	$arrOptionValues = array();
@@ -306,7 +307,8 @@ class Gallery extends \PCT\CustomElements\Core\Attribute
 		 	}
 	 	}
 	 	// render the wildcard for a custom element item
-	 	else
+	 	
+	 	if($blnIsCustomElement)
 	 	{
 	 	 	$strField = $objAttribute->get('uuid');
 		 	
