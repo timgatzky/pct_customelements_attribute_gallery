@@ -249,6 +249,7 @@ class Gallery extends \PCT\CustomElements\Core\Attribute
 		$objGallery->sortBy = $this->get('sortBy');
 		$objGallery->orderSRC = $arrOptionValues['orderSRC'] ?: $varValue;
 		$objGallery->galleryTpl = $this->get('galleryTpl');
+		$objGallery->numberOfItems = $arrOptionValues['numberOfItems'];
 		
 		// generate the gallery
 		$objTemplate->value = $objGallery->generate();
