@@ -1,3 +1,6 @@
+### 1.2.5
+Fixed: Respect the numberOfItems field
+
 ### 1.2.4
 Fixed: An issue loading the optional values when using CustomCatalog
 
