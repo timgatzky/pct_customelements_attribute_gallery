@@ -1,3 +1,6 @@
+### 1.2.6
+Update: Support eval_filesOnly,eval_extensions,eval_path
+
 ### 1.2.5
 Fixed: Respect the numberOfItems field
 
