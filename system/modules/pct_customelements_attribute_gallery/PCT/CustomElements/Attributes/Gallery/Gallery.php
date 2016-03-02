@@ -239,8 +239,16 @@ class Gallery extends \PCT\CustomElements\Core\Attribute
 			$arrOptionValues['perRow'] = 8;
 		}
 		
+		// default size
+		$arrSize = $objAttribute->get('size');
+		
+		if(isset($arrOptionValues['size']) && count( array_filter(deserialize($arrOptionValues['size']))) > 0 )
+		{
+			$arrSize = $arrOptionValues['size'];
+		}
+		
 		$objGallery->type = 'gallery';
-		$objGallery->size = $arrOptionValues['size'];
+		$objGallery->size = deserialize($arrSize);
 		$objGallery->imagemargin = $arrOptionValues['imagemargin'];
 		$objGallery->perRow = $arrOptionValues['perRow'] ?: 4;
 		$objGallery->perPage = $arrOptionValues['perPage'] ?: 0;
