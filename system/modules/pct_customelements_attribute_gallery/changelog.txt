@@ -1,3 +1,6 @@
+### 1.2.7
+Added: Default size can be defined in attribute settings (#5)
+
 ### 1.2.6
 Update: Support eval_filesOnly,eval_extensions,eval_path
 
