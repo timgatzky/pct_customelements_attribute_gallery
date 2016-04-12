@@ -25,8 +25,11 @@ $strType = 'gallery';
 \PCT\CustomElements\Loader\AttributeLoader::loadLanguageFile('tl_pct_customelement_attribute',$strType);
 \PCT\CustomElements\Loader\AttributeLoader::loadLanguageFile('tl_pct_customelement_attribute','image');
 
-// load datacontainer
-\PCT\CustomElements\Helper\ControllerHelper::callstatic('loadDataContainer',array('tl_content'));
+if(!is_array($GLOBALS['TL_DCA']['tl_content']))
+{
+	// load datacontainer
+	\PCT\CustomElements\Helper\ControllerHelper::callstatic('loadDataContainer',array('tl_content'));
+}
 
 /**
  * Palettes
