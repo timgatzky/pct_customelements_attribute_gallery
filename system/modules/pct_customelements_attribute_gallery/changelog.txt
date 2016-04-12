@@ -1,3 +1,6 @@
+### 1.2.8
+Update: Check if data container array has been loaded already before loading it in dca files
+
 ### 1.2.7
 Added: Default size can be defined in attribute settings (#5)
 
