@@ -242,7 +242,7 @@ class Gallery extends \PCT\CustomElements\Core\Attribute
 		// default size
 		$arrSize = $objAttribute->get('size');
 		
-		if(isset($arrOptionValues['size']) && count( array_filter(deserialize($arrOptionValues['size']))) > 0 )
+		if(isset($arrOptionValues['size']))
 		{
 			$arrSize = $arrOptionValues['size'];
 		}
