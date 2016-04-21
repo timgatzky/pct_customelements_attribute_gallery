@@ -1,3 +1,6 @@
+### 1.2.9
+Update: Remove array_filter call on $arrOptionValues['size']
+
 ### 1.2.8
 Update: Check if data container array has been loaded already before loading it in dca files
 
