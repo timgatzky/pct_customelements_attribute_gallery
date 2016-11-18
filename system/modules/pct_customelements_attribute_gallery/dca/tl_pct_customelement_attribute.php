@@ -36,7 +36,6 @@ if(!is_array($GLOBALS['TL_DCA']['tl_content']))
  */
 $arrPalettes = $objDcaHelper->getPalettesAsArray('default');
 $arrPalettes = $objDcaHelper->removeField('eval_tl_class_w50');
-$arrPalettes = $objDcaHelper->removeField('eval_tl_class_clr');
 $arrPalettes['settings_legend'] = array('options','size','sortBy','galleryTpl','eval_filesOnly','eval_extensions','eval_path');
 $GLOBALS['TL_DCA']['tl_pct_customelement_attribute']['palettes'][$strType] = $objDcaHelper->generatePalettes($arrPalettes);
 
