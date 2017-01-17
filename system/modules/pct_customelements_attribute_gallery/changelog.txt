@@ -1,3 +1,6 @@
+### 1.2.11
+Update: Check if contao saved an empty string on first array index instead of null in the database
+
 ### 1.2.10
 Update: Show the "new line" option in attribute settings
 
