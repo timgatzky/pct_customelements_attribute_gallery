@@ -195,6 +195,12 @@ class Gallery extends \PCT\CustomElements\Core\Attribute
 	 */
 	public function renderCallback($strField,$varValue,$objTemplate,$objAttribute)
 	{
+		// catch empty arrays in case contao saves an array with an empty string on first index
+		if(is_array($varValue))
+		{
+			$varValue = array_filter($varValue);
+		}
+		
 		if(empty($varValue))
 		{
 			return $objTemplate->parse();
