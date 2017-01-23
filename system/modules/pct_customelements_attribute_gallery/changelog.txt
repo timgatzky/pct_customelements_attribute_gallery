@@ -1,3 +1,7 @@
+### 1.3.0
+Update: Updates in regard of CustomElements 2.3.0 
+Updated Added the missing $varValue parameter in the parseWidgetCallback function
+
 ### 1.2.11
 Update: Check if contao saved an empty string on first array index instead of null in the database
 
