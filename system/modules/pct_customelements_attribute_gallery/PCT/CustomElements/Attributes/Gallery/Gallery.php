@@ -83,10 +83,19 @@ class Gallery extends \PCT\CustomElements\Core\Attribute
 	 * @param mixed
 	 * @return string
 	 */
-	public function parseWidgetCallback($objWidget,$strField,$arrFieldDef,$objDC)
+	public function parseWidgetCallback($objWidget,$strField,$arrFieldDef,$objDC,$varValue)
 	{
-		// validate the input
-		$objWidget->validate();
+		if(!is_array($varValue) && !\Environment::get('isAjaxRequest') && !$objDC->submitted)
+		{
+			$varValue = explode(',', $varValue);
+			$objWidget->__set('value',$varValue);
+		}
+		
+		if(isset($_POST[$strField]))
+		{
+			// validate
+			$objWidget->validate();
+		}
 		
 		if($objWidget->hasErrors())
 		{
