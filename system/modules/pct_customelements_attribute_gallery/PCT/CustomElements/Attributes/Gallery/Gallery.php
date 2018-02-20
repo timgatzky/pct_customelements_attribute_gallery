@@ -230,7 +230,7 @@ class Gallery extends \PCT\CustomElements\Core\Attribute
 				$strField = $objAttribute->get('alias');
 			 	$arrOptionValues = array();
 			 	$arrOptions = deserialize($objAttribute->get('options'));
-			 	if(count($arrOptions) > 0)
+			 	if(!empty($arrOptions) && is_array($arrOptions))
 			 	{
 				 	foreach($arrOptions as $strOption)
 				 	{
